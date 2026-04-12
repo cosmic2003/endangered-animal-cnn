@@ -1,38 +1,357 @@
-.App {
+:root {
+  --bg: #eef4e9;
+  --surface: #ffffff;
+  --green-dark: #2d6a4f;
+  --green-mid: #40916c;
+  --green-light: #74c69d;
+  --green-pale: #d8f3dc;
+  --text-primary: #1b2e1d;
+  --text-secondary: #52796f;
+  --border: #b7e4c7;
+  --shadow: 0 4px 24px rgba(45, 106, 79, 0.10);
+}
+
+.app {
+  min-height: 100vh;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── 헤더 ── */
+.app-header {
+  width: 100%;
+  background-color: var(--green-dark);
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-header .leaf-icon { font-size: 26px; line-height: 1; }
+.app-header h1 {
+  margin: 0;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+.app-header .subtitle {
+  margin: 0 0 0 auto;
+  font-size: 13px;
+  color: var(--green-light);
+  font-weight: 300;
+}
+
+/* ── 히어로 배너 ── */
+.hero-banner {
+  width: 100%;
+  background: linear-gradient(160deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%);
+  padding: 52px 24px 48px;
+  text-align: center;
+}
+.hero-deco {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 32px;
+  margin-bottom: 24px;
+  opacity: 0.55;
+}
+.hero-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 14px;
+  letter-spacing: -0.5px;
+}
+.hero-desc {
+  font-size: 15px;
+  color: #b7e4c7;
+  margin: 0;
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+/* ── 메인 ── */
+.app-main {
+  width: 100%;
+  max-width: 680px;
+  padding: 48px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 36px;
+}
+
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--green-dark);
+  margin: 0 0 20px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ── 사용 방법 3단계 ── */
+.steps-section { width: 100%; }
+.steps-grid {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-card {
+  flex: 1;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.step-emoji { font-size: 36px; line-height: 1; }
+.step-card h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+.step-card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.step-arrow {
+  font-size: 28px;
+  color: var(--border);
+  flex-shrink: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* ── 업로드 카드 ── */
+.upload-card {
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* ── 업로드 존 ── */
+.upload-zone {
+  width: 100%;
+  min-height: 220px;
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  background-color: var(--green-pale);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.upload-zone:hover,
+.upload-zone.dragging {
+  border-color: var(--green-mid);
+  background-color: #c7ebd5;
+  box-shadow: 0 0 0 4px rgba(64, 145, 108, 0.12);
+}
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  pointer-events: none;
+}
+.upload-placeholder .upload-icon { font-size: 52px; line-height: 1; }
+.upload-placeholder p { margin: 0; font-size: 15px; color: var(--text-secondary); }
+.upload-placeholder .upload-btn-text {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 8px 20px;
+  background-color: var(--green-dark);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+.upload-zone:hover .upload-btn-text { background-color: var(--green-mid); }
+.upload-placeholder .upload-hint {
+  font-size: 12px;
+  color: var(--green-light);
+  margin-top: 4px;
 }
 
-.App-link {
-  color: #61dafb;
+/* 미리보기 이미지 */
+.preview-image {
+  width: 100%;
+  min-height: 220px;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 14px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 다시 선택 버튼 */
+.reselect-btn {
+  padding: 10px 28px;
+  background: transparent;
+  border: 1.5px solid var(--green-mid);
+  color: var(--green-mid);
+  border-radius: 999px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.reselect-btn:hover { background-color: var(--green-mid); color: #fff; }
+
+/* ── 로딩 ── */
+.loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--green-pale);
+  border-top-color: var(--green-mid);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-box p { margin: 0; font-size: 14px; color: var(--text-secondary); font-weight: 300; }
+
+/* ── 결과 카드 ── */
+.result-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.4s ease;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.result-card-header {
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.result-card-header .result-icon { font-size: 40px; line-height: 1; }
+.result-card-header h2 {
+  margin: 0;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+}
+.result-card-header .scientific {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--green-light);
+  font-style: italic;
+  font-weight: 300;
+}
+.result-card-body {
+  background: var(--surface);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.iucn-row { display: flex; align-items: center; gap: 12px; }
+.iucn-label { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+.iucn-badge {
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.description-box {
+  background-color: var(--bg);
+  border-left: 3px solid var(--green-light);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 18px;
+}
+.description-box p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--text-primary);
+  font-weight: 300;
+}
+
+/* ── 오류 카드 ── */
+.error-card {
+  background: #fff5f5;
+  border: 1.5px solid #ffb3b3;
+  border-radius: 16px;
+  padding: 24px 28px;
+  animation: fadeUp 0.4s ease;
+}
+.error-card h3 { margin: 0 0 8px; color: #c1121f; font-size: 16px; }
+.error-card p { margin: 0; font-size: 14px; color: #7a3030; }
+
+/* ── IUCN 등급 안내 ── */
+.iucn-guide {
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 32px 28px;
+}
+.iucn-guide-intro {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: -8px 0 24px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+.iucn-grade-list { display: flex; flex-direction: column; gap: 12px; }
+.iucn-grade-item { display: flex; align-items: center; gap: 14px; }
+.iucn-grade-badge {
+  min-width: 48px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  flex-shrink: 0;
+}
+.iucn-grade-text { display: flex; flex-direction: column; gap: 2px; }
+.iucn-grade-text strong { font-size: 14px; color: var(--text-primary); }
+.iucn-grade-text span { font-size: 12px; color: var(--text-secondary); font-weight: 300; }
+
+/* ── 푸터 ── */
+.app-footer {
+  margin-top: auto;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  opacity: 0.6;
 }
