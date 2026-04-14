@@ -17,6 +17,7 @@ function App() {
   const [animalInfo, setAnimalInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [error, setError] = useState(null);
   const [showIosHint, setShowIosHint] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ function App() {
   const handleClassification = (file) => {
     setIsLoading(true);
     setAnimalInfo(null);
+    setError(null);
 
     const reader = new FileReader();
     reader.onloadend = () => setImagePreview(reader.result);
@@ -36,17 +38,22 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
 
-    fetch(`${process.env.REACT_APP_API_URL}/classify/`, {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    fetch(`${apiUrl}/classify/?ngrok-skip-browser-warning=true`, {
       method: 'POST',
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
-        setAnimalInfo(data);
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setAnimalInfo(data);
+        }
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error('Error:', err);
+        setError(`서버 연결 실패: ${err.message}`);
         setIsLoading(false);
       });
   };
@@ -54,6 +61,7 @@ function App() {
   const handleReset = () => {
     setImagePreview(null);
     setAnimalInfo(null);
+    setError(null);
   };
 
   return (
@@ -132,6 +140,14 @@ function App() {
             </div>
           )}
         </div>
+
+        {/* ── 에러 메시지 ── */}
+        {error && (
+          <div className="error-card">
+            <h3>오류 발생</h3>
+            <p>{error}</p>
+          </div>
+        )}
 
         {/* ── 분류 결과 ── */}
         {animalInfo && <AnimalInfo animalInfo={animalInfo} />}

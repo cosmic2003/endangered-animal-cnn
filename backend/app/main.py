@@ -19,10 +19,7 @@ app = FastAPI()
 # 리액트(3000번 포트)에서 오는 요청을 안전하다고 판단하여 허락해 줍니다.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000"
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],  # GET, POST 등 모든 요청 방식 허용
     allow_headers=["*"],  # 모든 헤더 허용
