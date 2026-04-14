@@ -2,10 +2,12 @@
 
 import os
 import io
+import base64
+import numpy as np
 import torch
 import torch.nn as nn
 from torchvision import transforms, models
-from PIL import Image
+from PIL import Image, ImageOps
 
 DEVICE     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.pth")
@@ -133,27 +135,99 @@ def _load_model():
 _model, _class_names = _load_model()
 
 
+# ── Grad-CAM 생성 ─────────────────────────────────────────────
+def _compute_gradcam(original_image, tensor, class_idx):
+    """EfficientNet-B0 마지막 특징층 기준 Grad-CAM 히트맵 생성"""
+    target_layer = _model.features[-1]
+
+    activations = [None]
+    gradients   = [None]
+
+    def fwd_hook(module, input, output):
+        activations[0] = output
+
+    def bwd_hook(module, grad_input, grad_output):
+        gradients[0] = grad_output[0]
+
+    h1 = target_layer.register_forward_hook(fwd_hook)
+    h2 = target_layer.register_full_backward_hook(bwd_hook)
+
+    try:
+        _model.zero_grad()
+        with torch.enable_grad():
+            out   = _model(tensor)
+            score = out[0, class_idx]
+            score.backward()
+
+        grads   = gradients[0]    # (1, C, h, w)
+        acts    = activations[0]  # (1, C, h, w)
+        weights = grads.mean(dim=[2, 3], keepdim=True)
+        cam     = torch.relu((weights * acts).sum(dim=1)).squeeze()
+        cam     = cam.detach().cpu().numpy()
+
+        if cam.max() > 0:
+            cam = cam / cam.max()
+
+        # 224×224 으로 리사이즈
+        cam_up = np.array(
+            Image.fromarray((cam * 255).astype(np.uint8)).resize((224, 224), Image.BILINEAR)
+        ) / 255.0
+
+        # Jet 컬러맵 (matplotlib 없이 직접 구현)
+        r = np.clip(1.5 - np.abs(4 * cam_up - 3), 0, 1)
+        g = np.clip(1.5 - np.abs(4 * cam_up - 2), 0, 1)
+        b = np.clip(1.5 - np.abs(4 * cam_up - 1), 0, 1)
+        heatmap = np.stack([r, g, b], axis=-1)
+
+        # 원본 이미지와 오버레이
+        orig = np.array(original_image.resize((224, 224))).astype(np.float32) / 255.0
+        overlay = np.clip(0.55 * orig + 0.45 * heatmap, 0, 1)
+        overlay = (overlay * 255).astype(np.uint8)
+
+        buf = io.BytesIO()
+        Image.fromarray(overlay).save(buf, format="JPEG", quality=85)
+        return base64.b64encode(buf.getvalue()).decode("utf-8")
+
+    except Exception as e:
+        print(f"[Grad-CAM 오류] {e}")
+        return None
+    finally:
+        h1.remove()
+        h2.remove()
+
+
 # ── 분류 함수 (main.py에서 호출) ──────────────────────────────
 def classify_animal(image_bytes):
-    # 모델이 아직 없으면 안내 메시지 반환
     if _model is None:
         return {"error": "모델 파일이 없습니다. ml/train.py를 먼저 실행하세요."}
 
-    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    image  = ImageOps.exif_transpose(Image.open(io.BytesIO(image_bytes))).convert("RGB")
     tensor = transform(image).unsqueeze(0).to(DEVICE)
 
+    # ── Top-3 예측 ──
     with torch.no_grad():
         outputs = _model(tensor)
-        probs = torch.softmax(outputs, dim=1)
-        confidence, predicted = probs.max(1)
+        probs   = torch.softmax(outputs, dim=1)
 
-    animal_name = _class_names[predicted.item()]
-    info = ANIMAL_INFO.get(animal_name, {})
+    top3_probs, top3_idxs = probs[0].topk(3)
+    top3 = [
+        {"name": _class_names[idx.item()], "confidence": round(prob.item() * 100, 1)}
+        for prob, idx in zip(top3_probs, top3_idxs)
+    ]
+
+    animal_name    = top3[0]["name"]
+    confidence_val = top3[0]["confidence"]
+    info           = ANIMAL_INFO.get(animal_name, {})
+
+    # ── Grad-CAM ──
+    gradcam_b64 = _compute_gradcam(image, tensor, top3_idxs[0].item())
 
     return {
         "animal_name":     animal_name,
         "scientific_name": info.get("scientific_name", ""),
         "iucn_status":     info.get("iucn_status", ""),
         "description":     info.get("description", ""),
-        "confidence":      round(confidence.item() * 100, 1),
+        "confidence":      confidence_val,
+        "top3":            top3,
+        "gradcam":         gradcam_b64,
     }

@@ -322,6 +322,89 @@
   font-weight: 300;
 }
 
+/* ── Top 3 신뢰도 바 ── */
+.top3-section { display: flex; flex-direction: column; gap: 10px; }
+.top3-title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.top3-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.top3-rank {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green-pale);
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.top3-rank--first {
+  background: var(--green-dark);
+  color: #fff;
+}
+.top3-name {
+  width: 72px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+.top3-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: var(--green-pale);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.top3-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.top3-pct {
+  width: 40px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── Grad-CAM 히트맵 ── */
+.gradcam-section { display: flex; flex-direction: column; gap: 6px; }
+.gradcam-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.gradcam-desc {
+  margin: 0;
+  font-size: 12px;
+  color: var(--green-light);
+  font-weight: 300;
+}
+.gradcam-img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
 /* ── 오류 카드 ── */
 .error-card {
   background: #fff5f5;
