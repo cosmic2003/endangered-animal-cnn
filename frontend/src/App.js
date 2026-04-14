@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UploadForm from './components/UploadForm';
 import AnimalInfo from './components/AnimalInfo';
 import './App.css';
@@ -17,6 +17,13 @@ function App() {
   const [animalInfo, setAnimalInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [showIosHint, setShowIosHint] = useState(false);
+
+  useEffect(() => {
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    if (isIos && !isStandalone) setShowIosHint(true);
+  }, []);
 
   const handleClassification = (file) => {
     setIsLoading(true);
@@ -29,7 +36,7 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
 
-    fetch('http://localhost:8000/classify/', {
+    fetch(`${process.env.REACT_APP_API_URL}/classify/`, {
       method: 'POST',
       body: formData,
     })
@@ -51,6 +58,15 @@ function App() {
 
   return (
     <div className="app">
+
+      {/* ── iOS PWA 설치 안내 ── */}
+      {showIosHint && (
+        <div className="ios-pwa-hint">
+          <span>📲</span>
+          <span>앱으로 설치: Safari 하단 <strong>공유 버튼</strong> → <strong>홈 화면에 추가</strong></span>
+          <button className="ios-pwa-close" onClick={() => setShowIosHint(false)}>✕</button>
+        </div>
+      )}
 
       {/* ── 헤더 ── */}
       <header className="app-header">

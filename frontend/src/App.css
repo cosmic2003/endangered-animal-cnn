@@ -175,22 +175,40 @@
   gap: 10px;
   padding: 20px;
   text-align: center;
-  pointer-events: none;
 }
 .upload-placeholder .upload-icon { font-size: 52px; line-height: 1; }
 .upload-placeholder p { margin: 0; font-size: 15px; color: var(--text-secondary); }
-.upload-placeholder .upload-btn-text {
-  display: inline-block;
+.upload-btn-group {
+  display: flex;
+  gap: 10px;
   margin-top: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.upload-btn {
   padding: 8px 20px;
-  background-color: var(--green-dark);
-  color: #fff;
+  border: none;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.2s;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  font-family: 'Noto Sans KR', sans-serif;
 }
-.upload-zone:hover .upload-btn-text { background-color: var(--green-mid); }
+.upload-btn:active { transform: scale(0.96); }
+.upload-btn--file {
+  background-color: var(--green-dark);
+  color: #fff;
+}
+.upload-btn--file:hover { background-color: var(--green-mid); }
+.upload-btn--camera {
+  background-color: #fff;
+  color: var(--green-dark);
+  border: 1.5px solid var(--green-dark);
+}
+.upload-btn--camera:hover {
+  background-color: var(--green-pale);
+}
 .upload-placeholder .upload-hint {
   font-size: 12px;
   color: var(--green-light);
@@ -345,6 +363,61 @@
 .iucn-grade-text { display: flex; flex-direction: column; gap: 2px; }
 .iucn-grade-text strong { font-size: 14px; color: var(--text-primary); }
 .iucn-grade-text span { font-size: 12px; color: var(--text-secondary); font-weight: 300; }
+
+/* ── iOS PWA 설치 안내 배너 ── */
+.ios-pwa-hint {
+  width: 100%;
+  background-color: var(--green-dark);
+  color: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.ios-pwa-hint span:first-child { font-size: 20px; flex-shrink: 0; }
+.ios-pwa-hint span:nth-child(2) { flex: 1; }
+.ios-pwa-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ── 반응형 (모바일) ── */
+@media (max-width: 600px) {
+  .app-header { padding: 14px 16px; }
+  .app-header h1 { font-size: 16px; }
+  .app-header .subtitle { display: none; }
+
+  .hero-banner { padding: 32px 16px 28px; }
+  .hero-deco { font-size: 24px; gap: 12px; margin-bottom: 16px; }
+  .hero-title { font-size: 22px; }
+  .hero-desc { font-size: 13px; }
+
+  .app-main { padding: 28px 16px 60px; gap: 24px; }
+
+  .steps-grid { flex-direction: column; gap: 6px; }
+  .step-arrow { transform: rotate(90deg); font-size: 22px; }
+  .step-card { padding: 16px 12px; flex-direction: row; gap: 14px; text-align: left; }
+  .step-emoji { font-size: 28px; }
+
+  .upload-card { padding: 20px 16px; gap: 16px; }
+  .upload-zone { min-height: 180px; }
+  .upload-placeholder .upload-icon { font-size: 40px; }
+  .upload-btn-group { flex-direction: column; align-items: stretch; gap: 8px; }
+  .upload-btn { text-align: center; padding: 12px; font-size: 15px; }
+
+  .iucn-guide { padding: 24px 16px; }
+  .result-card-header { padding: 18px 20px; }
+  .result-card-body { padding: 20px 16px; }
+}
 
 /* ── 푸터 ── */
 .app-footer {

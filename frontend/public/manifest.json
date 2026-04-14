@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "동물분류",
+  "name": "멸종위기 동물 분류 서비스",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#2d6a4f",
+  "background_color": "#eef4e9",
+  "description": "AI 기반 멸종위기 동물 분류 및 IUCN 등급 확인 서비스"
 }
