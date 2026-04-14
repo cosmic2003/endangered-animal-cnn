@@ -91,9 +91,9 @@ val_ds   = Subset(val_dataset,   val_idx.indices)
 print(f"학습: {len(train_ds)}장 / 검증: {len(val_ds)}장\n")
 
 train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,
-                          num_workers=4, pin_memory=True)
+                          num_workers=0, pin_memory=False)
 val_loader   = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False,
-                          num_workers=4, pin_memory=True)
+                          num_workers=0, pin_memory=False)
 
 
 # ── 커스텀 분류기 헤드 설계 ────────────────────────────────────

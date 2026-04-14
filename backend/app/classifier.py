@@ -93,6 +93,23 @@ transform = transforms.Compose([
 ])
 
 
+# ── train.py와 동일한 커스텀 헤드 ────────────────────────────
+class _CustomHead(nn.Module):
+    def __init__(self, in_features, hidden_dim, num_classes, dropout1, dropout2):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Dropout(p=dropout1),
+            nn.Linear(in_features, hidden_dim),
+            nn.BatchNorm1d(hidden_dim),
+            nn.ReLU(),
+            nn.Dropout(p=dropout2),
+            nn.Linear(hidden_dim, num_classes),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+
 # ── 모델 로드 (서버 시작 시 1회만) ───────────────────────────
 def _load_model():
     if not os.path.exists(MODEL_PATH):
@@ -103,9 +120,8 @@ def _load_model():
     num_classes = checkpoint["num_classes"]
 
     model = models.efficientnet_b0(weights=None)
-    model.classifier[1] = nn.Linear(
-        model.classifier[1].in_features, num_classes
-    )
+    in_features = model.classifier[1].in_features
+    model.classifier = _CustomHead(in_features, 512, num_classes, 0.4, 0.3)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
     model.to(DEVICE)
