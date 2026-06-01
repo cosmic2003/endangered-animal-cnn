@@ -215,6 +215,52 @@
   margin-top: 4px;
 }
 
+/* 데모 샘플 갤러리 */
+.sample-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  width: 100%;
+}
+.sample-gallery-title {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+.sample-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.sample-thumb:hover {
+  border-color: var(--green-mid);
+  background-color: #fff;
+}
+.sample-thumb:active { transform: scale(0.97); }
+.sample-thumb img {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.sample-thumb span {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
 /* 미리보기 이미지 */
 .preview-image {
   width: 100%;

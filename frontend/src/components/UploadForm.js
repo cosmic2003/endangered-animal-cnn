@@ -1,7 +1,14 @@
 import { useRef, useState } from 'react';
 
+const DEMO_SAMPLE = {
+  src: `${process.env.PUBLIC_URL}/samples/sample.jpg`,
+  label: '데모 사진',
+  filename: 'sample.jpg',
+};
+
 function UploadForm({ onClassification, imagePreview }) {
   const [isDragging, setIsDragging] = useState(false);
+  const [sampleAvailable, setSampleAvailable] = useState(true);
   const fileInputRef   = useRef(null);
   const cameraInputRef = useRef(null);
 
@@ -15,6 +22,18 @@ function UploadForm({ onClassification, imagePreview }) {
     e.preventDefault();
     setIsDragging(false);
     handleFile(e.dataTransfer.files[0]);
+  };
+
+  const handleSampleClick = async () => {
+    try {
+      const res = await fetch(DEMO_SAMPLE.src);
+      if (!res.ok) throw new Error('샘플 사진을 찾을 수 없습니다.');
+      const blob = await res.blob();
+      const file = new File([blob], DEMO_SAMPLE.filename, { type: blob.type || 'image/jpeg' });
+      handleFile(file);
+    } catch (err) {
+      setSampleAvailable(false);
+    }
   };
 
   return (
@@ -40,6 +59,25 @@ function UploadForm({ onClassification, imagePreview }) {
             </label>
           </div>
           <span className="upload-hint">JPG, PNG, WEBP 지원</span>
+
+          {sampleAvailable && (
+            <div className="sample-gallery">
+              <span className="sample-gallery-title">또는 데모 샘플</span>
+              <button
+                type="button"
+                className="sample-thumb"
+                onClick={handleSampleClick}
+                aria-label="데모 샘플로 분류 시작"
+              >
+                <img
+                  src={DEMO_SAMPLE.src}
+                  alt={DEMO_SAMPLE.label}
+                  onError={() => setSampleAvailable(false)}
+                />
+                <span>{DEMO_SAMPLE.label}</span>
+              </button>
+            </div>
+          )}
         </div>
       )}
 

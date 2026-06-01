@@ -4,8 +4,6 @@ import AnimalInfo from './components/AnimalInfo';
 import './App.css';
 
 const IUCN_GRADES = [
-  { code: 'EX', name: '절멸',      color: '#3a3a3a', desc: '야생에서 완전히 사라진 종' },
-  { code: 'EW', name: '야생절멸',  color: '#6b6b6b', desc: '야생에서만 절멸, 사육시설에 생존' },
   { code: 'CR', name: '위급',      color: '#c1121f', desc: '극도로 높은 절멸 위기' },
   { code: 'EN', name: '위기',      color: '#e76f51', desc: '매우 높은 절멸 위기' },
   { code: 'VU', name: '취약',      color: '#d4a017', desc: '높은 절멸 위기' },
@@ -38,7 +36,7 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
 
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    const apiUrl = process.env.REACT_APP_API_URL || window.location.origin;
     fetch(`${apiUrl}/classify/?ngrok-skip-browser-warning=true`, {
       method: 'POST',
       body: formData,

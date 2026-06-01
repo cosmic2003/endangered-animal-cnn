@@ -46,8 +46,8 @@ ANIMAL_INFO = {
     },
     "늑대": {
         "scientific_name": "Canis lupus",
-        "iucn_status": "EX (한국 내 절멸)",
-        "description": "한국에서는 이미 야생 절멸된 것으로 간주됩니다. 생태계 최상위 포식자로 중요한 역할을 합니다.",
+        "iucn_status": "LC (관심 대상, 한국 내 야생 절멸)",
+        "description": "전 세계적으로는 관심 대상 등급이나, 한국에서는 이미 야생 절멸된 것으로 간주됩니다. 생태계 최상위 포식자로 중요한 역할을 합니다.",
     },
     "호랑이": {
         "scientific_name": "Panthera tigris",
@@ -83,6 +83,136 @@ ANIMAL_INFO = {
         "scientific_name": "Miniopterus fuliginosus",
         "iucn_status": "NT (준위협)",
         "description": "긴 날개와 빠른 비행 속도가 특징인 박쥐로, 대규모 동굴 군집을 이루어 생활합니다.",
+    },
+    # ── 신규 추가: 포유류 ──────────────────────────────────────
+    "스라소니": {
+        "scientific_name": "Lynx lynx",
+        "iucn_status": "LC (관심 대상, 한국 내 야생 절멸 추정)",
+        "description": "귀 끝의 검은 붓털과 짧은 꼬리가 특징인 중형 고양이과 동물입니다. 전 세계적으로는 안정적이나 한국에서는 이미 야생 절멸한 것으로 추정됩니다.",
+    },
+    "대륙사슴": {
+        "scientific_name": "Cervus nippon",
+        "iucn_status": "LC (관심 대상, 한국 자생 개체군 절멸)",
+        "description": "몸의 흰 반점 때문에 '꽃사슴'이라 불리는 사슴으로, 한국 자생 개체군은 절멸했고 현재 복원·사육 개체가 남아 있습니다.",
+    },
+    # ── 신규 추가: 파충류·양서류 ───────────────────────────────
+    "구렁이": {
+        "scientific_name": "Elaphe schrenckii",
+        "iucn_status": "멸종위기 야생생물 II급 (천연기념물)",
+        "description": "한국에서 가장 큰 뱀으로 독이 없으며, 쥐 등을 잡아먹어 생태계 균형에 기여합니다. 서식지 파괴와 포획으로 개체수가 크게 줄었습니다.",
+    },
+    "남생이": {
+        "scientific_name": "Mauremys reevesii",
+        "iucn_status": "EN (위기) · 멸종위기 II급",
+        "description": "한국 토착 민물거북으로, 등딱지에 세 줄의 융기가 있습니다. 외래종 붉은귀거북과의 경쟁과 서식지 훼손으로 위협받고 있습니다.",
+    },
+    "표범장지뱀": {
+        "scientific_name": "Eremias argus",
+        "iucn_status": "LC (관심 대상) · 멸종위기 II급",
+        "description": "몸에 표범 무늬가 있는 도마뱀으로, 해안 사구와 강가 모래밭에 서식합니다. 해안 개발로 서식지가 급격히 줄고 있습니다.",
+    },
+    "맹꽁이": {
+        "scientific_name": "Kaloula borealis",
+        "iucn_status": "LC (관심 대상) · 멸종위기 II급",
+        "description": "장마철에 '맹꽁' 하고 우는 둥근 몸의 땅속 개구리로, 도시 개발로 산란 습지가 사라지며 위협받고 있습니다.",
+    },
+    "금개구리": {
+        "scientific_name": "Pelophylax chosenicus",
+        "iucn_status": "VU (취약) · 멸종위기 II급 · 한국 고유종",
+        "description": "등에 금색 융기선 두 줄이 뚜렷한 한국 고유 개구리로, 논·습지 감소와 외래종 유입으로 개체수가 줄고 있습니다.",
+    },
+    # ── 신규 추가: 해양 포유류 ────────────────────────────────────
+    "점박이물범": {
+        "scientific_name": "Phoca largha",
+        "iucn_status": "LC (관심 대상) · 멸종위기 II급",
+        "description": "백령도와 서해안에 서식하는 물범으로, 얼룩덜룩한 점박이 무늬가 특징입니다. 중국·러시아 등 번식지 환경 변화와 혼획으로 위협받고 있습니다.",
+    },
+    "상괭이": {
+        "scientific_name": "Neophocaena asiaeorientalis",
+        "iucn_status": "VU (취약) · 멸종위기 II급",
+        "description": "등지느러미가 없는 소형 돌고래로, '웃는 돌고래'라는 별명을 가집니다. 서·남해안과 한강에도 출몰하며 혼획과 수질 오염으로 개체수가 급감하고 있습니다.",
+    },
+    # ── 신규 추가: 국제 멸종위기종 (동물원) ─────────────────────
+    "자이언트판다": {
+        "scientific_name": "Ailuropoda melanoleuca",
+        "iucn_status": "VU (취약)",
+        "description": "흑백 털과 특유의 눈 무늬로 세계에서 가장 사랑받는 동물 중 하나입니다. 중국 쓰촨성 대나무 숲이 주 서식지이며, 집중적인 보전 활동으로 개체수가 서서히 회복되고 있습니다.",
+    },
+    "눈표범": {
+        "scientific_name": "Panthera uncia",
+        "iucn_status": "VU (취약)",
+        "description": "중앙아시아 고산 지대에 사는 대형 고양이과 동물로, 두꺼운 꼬리와 연기 같은 회색 얼룩무늬가 특징입니다. '설산의 유령'이라는 별명처럼 매우 은밀하게 생활합니다.",
+    },
+    "북극곰": {
+        "scientific_name": "Ursus maritimus",
+        "iucn_status": "VU (취약)",
+        "description": "세계 최대의 육상 육식 동물로, 북극해 해빙에 의존해 살아갑니다. 기후변화로 해빙이 줄어들면서 서식지가 크게 위협받고 있습니다.",
+    },
+    "아시아코끼리": {
+        "scientific_name": "Elephas maximus",
+        "iucn_status": "EN (위기)",
+        "description": "아프리카코끼리보다 귀가 작고 등이 둥근 편입니다. 삼림 파괴와 밀렵, 인간과의 충돌로 개체수가 5만 마리 이하로 줄었습니다.",
+    },
+    "오랑우탄": {
+        "scientific_name": "Pongo pygmaeus",
+        "iucn_status": "CR (위급)",
+        "description": "보르네오섬에 사는 대형 유인원으로, 긴 팔과 붉은 털이 특징입니다. 팜유 농장 개발로 인한 삼림 파괴가 가장 큰 위협 요인입니다.",
+    },
+    "고릴라": {
+        "scientific_name": "Gorilla gorilla",
+        "iucn_status": "CR (위급)",
+        "description": "지구상에서 가장 큰 영장류로, 온화한 성격과 높은 지능을 가집니다. 서부 저지대 고릴라는 밀렵과 에볼라 바이러스, 서식지 파괴로 개체수가 급감했습니다.",
+    },
+    "기린": {
+        "scientific_name": "Giraffa camelopardalis",
+        "iucn_status": "VU (취약)",
+        "description": "지구상에서 가장 키가 큰 동물로, 특유의 긴 목과 독특한 얼룩무늬가 특징입니다. 지난 30년간 아프리카 개체수가 40% 감소해 2016년부터 취약 등급으로 상향됐습니다.",
+    },
+    "치타": {
+        "scientific_name": "Acinonyx jubatus",
+        "iucn_status": "VU (취약)",
+        "description": "시속 120km까지 달리는 지상 최고 속도의 동물입니다. 유전적 다양성이 매우 낮고, 서식지 파괴·인간과의 충돌로 야생 개체수가 약 7,000마리에 불과합니다.",
+    },
+    "재규어": {
+        "scientific_name": "Panthera onca",
+        "iucn_status": "VU (취약)",
+        "description": "아메리카 대륙 최대의 고양이과 동물로, 장미 모양 점무늬 안에 작은 점이 있어 표범과 구별됩니다. 아마존 열대우림 파괴가 주요 위협입니다.",
+    },
+    # ── 신규 추가: 어류 ────────────────────────────────────────
+    "황쏘가리": {
+        "scientific_name": "Siniperca scherzeri",
+        "iucn_status": "천연기념물 제190호 · 멸종위기 II급",
+        "description": "쏘가리의 색소 변이형으로 몸 전체가 황금빛을 띠는 희귀 담수어입니다. 맑은 하천 중상류에 서식합니다.",
+    },
+    "열목어": {
+        "scientific_name": "Brachymystax lenok",
+        "iucn_status": "멸종위기 야생생물 II급",
+        "description": "차고 맑은 산간 계류에 사는 연어과 냉수성 어류로, 수온 상승과 하천 오염에 매우 민감해 분포가 크게 축소되었습니다.",
+    },
+    "가시고기": {
+        "scientific_name": "Pungitius sinensis",
+        "iucn_status": "멸종위기 야생생물 II급",
+        "description": "수컷이 둥지를 짓고 알과 새끼를 돌보는 부성애로 유명한 소형 담수어입니다. 등에 가시 모양 지느러미가 있습니다.",
+    },
+    "묵납자루": {
+        "scientific_name": "Acheilognathus signifer",
+        "iucn_status": "멸종위기 II급 · 한국 고유종",
+        "description": "민물조개에 알을 낳아 키우는 한국 고유 납자루류로, 수질이 좋은 하천에만 서식해 환경 지표종으로 여겨집니다.",
+    },
+    "꾸구리": {
+        "scientific_name": "Gobiobotia macrocephala",
+        "iucn_status": "멸종위기 I급 · 한국 고유종",
+        "description": "한강 수계에만 서식하는 한국 고유 담수어로, 머리가 크고 수염이 발달해 있습니다. 댐 건설과 하천 준설로 서식지가 크게 감소했습니다.",
+    },
+    "미호종개": {
+        "scientific_name": "Cobitis choii",
+        "iucn_status": "멸종위기 I급 · 한국 고유종",
+        "description": "금강 미호천에서만 발견된 한국 고유 미꾸리과 어류입니다. 미호천 개발 및 수질 오염으로 서식 범위가 극도로 좁아졌습니다.",
+    },
+    "감돌고기": {
+        "scientific_name": "Pseudopungtungia tenuis",
+        "iucn_status": "멸종위기 I급 · 한국 고유종",
+        "description": "납자루과의 한국 고유 담수어로, 꺽지 알에 기생 산란하는 독특한 번식 방법을 가집니다. 서식 하천이 매우 제한적입니다.",
     },
 }
 

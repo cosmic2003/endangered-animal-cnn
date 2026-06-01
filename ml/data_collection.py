@@ -11,22 +11,57 @@ import time
 import requests
 from pathlib import Path
 
-# ── 한국 멸종위기 포유류 14종: 한국명 → 학명 ──────────────────
+# ── 한국 멸종위기 야생생물: 한국명 → 학명 ─────────────────────
+# 동물원·수족관·생태공원·체험관 등에서 비교적 쉽게 촬영할 수 있는
+# 육상동물(포유류·파충류·양서류)과 어류 중심  (조류 제외)
 SPECIES = {
+    # ── 포유류 (동물원·생태공원) ──────────────────────────
     "산양":           "Naemorhedus caudatus",
     "반달가슴곰":     "Ursus thibetanus",
     "사향노루":       "Moschus moschiferus",
-    "붉은박쥐":       "Myotis rufoniger",
     "수달":           "Lutra lutra",
     "여우":           "Vulpes vulpes",
     "늑대":           "Canis lupus",
     "호랑이":         "Panthera tigris",
     "표범":           "Panthera pardus",
+    "스라소니":       "Lynx lynx",
     "삵":             "Prionailurus bengalensis",
     "담비":           "Martes flavigula",
     "하늘다람쥐":     "Pteromys volans",
+    "대륙사슴":       "Cervus nippon",
+    "붉은박쥐":       "Myotis rufoniger",
     "큰귀박쥐":       "Plecotus auritus",
     "긴꼬리딱새박쥐": "Miniopterus fuliginosus",
+
+    # ── 파충류·양서류 (생태공원·체험관) ───────────────────
+    "구렁이":         "Elaphe schrenckii",
+    "남생이":         "Mauremys reevesii",
+    "표범장지뱀":     "Eremias argus",
+    "맹꽁이":         "Kaloula borealis",
+    "금개구리":       "Pelophylax chosenicus",
+
+    # ── 해양 포유류 (아쿠아리움·수족관) ──────────────────
+    "점박이물범":     "Phoca largha",
+    "상괭이":         "Neophocaena asiaeorientalis",
+
+    # ── 국제 멸종위기종 (동물원) ──────────────────────────
+    "자이언트판다":   "Ailuropoda melanoleuca",
+    "눈표범":         "Panthera uncia",
+    "북극곰":         "Ursus maritimus",
+    "아시아코끼리":   "Elephas maximus",
+    "오랑우탄":       "Pongo pygmaeus",
+    "고릴라":         "Gorilla gorilla",
+    "기린":           "Giraffa camelopardalis",
+    "치타":           "Acinonyx jubatus",
+    "재규어":         "Panthera onca",
+
+    # ── 한국 멸종위기 어류 (수족관·아쿠아리움) ────────────
+    "황쏘가리":       "Siniperca scherzeri",
+    "열목어":         "Brachymystax lenok",
+    "가시고기":       "Pungitius sinensis",
+    "꾸구리":         "Gobiobotia macrocephala",
+    "미호종개":       "Cobitis choii",
+    "감돌고기":       "Pseudopungtungia tenuis",
 }
 
 MAX_IMAGES = 60    # 종당 최대 수집 이미지 수
@@ -148,13 +183,31 @@ def main():
         total += count
 
         if count < 50:
-            warnings.append(f"{korean_name}: {count}장 (부족 — 정확도 낮을 수 있음)")
+            warnings.append(f"{korean_name}: {count}장 (부족 - 정확도 낮을 수 있음)")
         print(f"  → {count}장 완료")
+
+    # ── 이미지가 0장인 종 폴더 정리 ──────────────────────────
+    # (train.py의 ImageFolder는 빈 클래스 폴더가 있으면 오류를 내므로 제거)
+    removed = []
+    for name in os.listdir(SAVE_DIR):
+        sdir = os.path.join(SAVE_DIR, name)
+        if not os.path.isdir(sdir):
+            continue
+        imgs = [f for f in os.listdir(sdir)
+                if f.lower().endswith((".jpg", ".jpeg", ".png"))]
+        if not imgs:
+            id_file = os.path.join(sdir, "_downloaded_ids.txt")
+            if os.path.exists(id_file):
+                os.remove(id_file)
+            os.rmdir(sdir)
+            removed.append(name)
 
     print("\n" + "=" * 50)
     print(f"  총 {total}장 수집 완료")
+    if removed:
+        print(f"\n  [제외] 이미지 0장으로 제외된 종: {', '.join(removed)}")
     if warnings:
-        print("\n  ⚠️  이미지 부족 종:")
+        print("\n  [경고] 이미지 부족 종:")
         for w in warnings:
             print(f"     - {w}")
     print("=" * 50)
